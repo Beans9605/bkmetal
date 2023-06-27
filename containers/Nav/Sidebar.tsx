@@ -71,12 +71,11 @@ const Sidebar = () => {
         },
       }}
       variant={upperSize ? "persistent" : "temporary"}
-      anchor="left"
+      anchor="right"
       open={drawerOpen}
       onClose={() => setDrawerOpen(false)}
     >
       <List
-        sx={{ width: "100%" }}
         component="nav"
         // subheader={
         //   <ListSubheader

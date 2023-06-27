@@ -24,6 +24,8 @@ import BKMetalImage2 from "../assets/img/bkimg/bkmetal_2.jpeg";
 import Image from "next/image";
 import { grey } from "@mui/material/colors";
 import AlarmIcon from "@mui/icons-material/Alarm";
+import MainCover from "@container/Main/MainCover";
+import MainDefinition from "@container/Main/MainDefinition";
 
 const StyledCard = styled(Card)(({ theme }) => ({
   backgroundColor: "rgba( 50, 50, 50, 0)",
@@ -96,14 +98,12 @@ export default function Home() {
     setToggleValue(newValue);
   };
 
-  console.log(BKMetalImage);
-
-  const [Chicken, setChickenCount] = useState(1);
-
   const [openAlert, setOpenAlert] = useState(false);
 
   return (
     <Box>
+      <MainCover />
+      <MainDefinition />
       <Carousel animation="slide" autoPlay={false} swipe indicators={false}>
         <CarouselItem square>
           <Box
@@ -192,7 +192,7 @@ export default function Home() {
           </Box>
         </CarouselItem>
       </Carousel>
-      <Box
+      {/* <Box
         sx={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr 1fr",
@@ -239,7 +239,7 @@ export default function Home() {
             얼럿창 띄우기
           </StyledButton>
         </Box>
-      </Box>
+      </Box> */}
       <Divider />
       <Box
         sx={{

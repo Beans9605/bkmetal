@@ -16,6 +16,8 @@ import { sidebarOpenState } from "../../utils/recoil";
 
 import { useRouter } from "next/router";
 import FactoryIcon from "@mui/icons-material/Factory";
+import BKIcon from "@assets/icon/bk_iron.png";
+import Image from "next/image";
 
 const drawerWidth = 240;
 
@@ -27,21 +29,41 @@ interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
 
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
-})<AppBarProps>(({ theme, open }) => ({
-  transition: theme.transitions.create(["margin", "width"], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: `${drawerWidth}px`,
-    transition: theme.transitions.create(["margin", "width"], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
+const AppBar = styled((props: AppBarProps & { scrolled?: boolean }) => {
+  return <MuiAppBar {...props} />;
+})<AppBarProps>(({ theme, scrolled }) => ({
+  ...(scrolled
+    ? {
+        animation: `close 1000ms ${theme.transitions.easing.easeInOut}`,
+        opacity: 0,
+        transform: "translateY(-200%)",
+      }
+    : {
+        animation: `open 1000ms ${theme.transitions.easing.easeInOut}`,
+        opacity: 1,
+      }),
+
+  "@keyframes close": {
+    from: {
+      opacity: 1,
+      transform: "translateY(0)",
+    },
+    to: {
+      opacity: 0,
+      transform: "translateY(-200%)",
+    },
+  },
+
+  "@keyframes open": {
+    from: {
+      opacity: 0,
+      transform: "translateY(-200%)",
+    },
+    to: {
+      opacity: 1,
+      transform: "translateY(0)",
+    },
+  },
 }));
 
 const Navbar = (props: NavbarType) => {
@@ -50,6 +72,7 @@ const Navbar = (props: NavbarType) => {
   const router = useRouter();
 
   const [sideOpen, setSideOpen] = useRecoilState(sidebarOpenState);
+  const [scrollYNum, setScrollYNum] = useState(0);
   const [scrolled, setScrolled] = useState(false);
 
   const onHomeClickHandler = (e: any) => {
@@ -59,12 +82,13 @@ const Navbar = (props: NavbarType) => {
 
   const handleScroll = useCallback(() => {
     const scrollnumber = window?.scrollY;
-    if (scrollnumber && scrollnumber > 0) {
+    if (scrollnumber && scrollnumber > scrollYNum) {
       setScrolled(true);
     } else if (scrolled) {
       setScrolled(false);
     }
-  }, [scrolled]);
+    setScrollYNum(scrollnumber);
+  }, [scrolled, scrollYNum]);
 
   const theme = useTheme();
   const upperSize = useMediaQuery(theme.breakpoints.up("md"));
@@ -83,13 +107,10 @@ const Navbar = (props: NavbarType) => {
 
   return (
     <AppBar
-      open={upperSize && sideOpen}
-      color={scrolled ? "inherit" : "transparent"}
-      elevation={scrolled ? 1 : 0}
-      sx={{
-        visibility: scrolled ? "visible" : "hidden",
-      }}
-      position="fixed"
+      elevation={0}
+      scrolled={scrolled}
+      color={"inherit"}
+      position="sticky"
     >
       <Toolbar
         sx={{
@@ -98,7 +119,7 @@ const Navbar = (props: NavbarType) => {
         }}
       >
         <Button
-          startIcon={<FactoryIcon color="primary" />}
+          startIcon={<Image src={BKIcon} alt="bkicon" width={40} />}
           color="inherit"
           onClick={() => router.push("/")}
           sx={{
@@ -106,8 +127,8 @@ const Navbar = (props: NavbarType) => {
           }}
           size="large"
         >
-          <Typography variant="h5" color="primary">
-            BK Metal
+          <Typography variant="h4" color="primary">
+            BK
           </Typography>
         </Button>
         <IconButton onClick={onHomeClickHandler}>

@@ -17,24 +17,10 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;
 }>(({ theme, open }) => ({
   flexGrow: 1,
-  transition: theme.transitions.create("margin", {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  marginLeft: `-${drawerWidth}px`,
-  ...(open && {
-    transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginLeft: 0,
-  }),
 }));
 
 const Layout = ({ children }: LayoutProps) => {
-  const [sideOpen, setSideOpen] = useRecoilState(sidebarOpenState);
-
-  // const [sideOpen, setSideOpen] = useState(false);
+  const [_, setSideOpen] = useRecoilState(sidebarOpenState);
 
   const theme = useTheme();
   const upperSize = useMediaQuery(theme.breakpoints.up("md"));
@@ -44,13 +30,11 @@ const Layout = ({ children }: LayoutProps) => {
   };
 
   return (
-    <div className={styles.layout}>
+    <>
       <Navbar onSidebarHandler={onSidebarHandler} />
       <Sidebar />
-      <Main open={upperSize && sideOpen}>
-        <Box sx={{ marginLeft: "240px" }}>{children}</Box>
-      </Main>
-    </div>
+      <Main>{children}</Main>
+    </>
   );
 };
 
