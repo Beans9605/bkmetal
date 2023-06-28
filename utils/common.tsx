@@ -188,3 +188,97 @@ export const MainSidebarElements: MainSidebarElement[] = [
     labelIcon: DeliveryDiningIcon,
   },
 ];
+
+export const ScrapMetals: Array<ScrapType> = [
+  {
+    id: "0",
+    title: "생철a",
+    subtitle: "(도착도)",
+    description: "(단일 20ton 이상 +@)",
+    price: 470,
+  },
+  {
+    id: "1",
+    title: "중량a",
+    subtitle: "(도착도)",
+    description: "(단일 20ton 이상 +@)",
+    price: 450,
+  },
+  {
+    id: "2",
+    title: "중량b",
+    subtitle: "(도착도)",
+    description: "(단일 20ton 이상 +@)",
+    price: 440,
+  },
+  {
+    id: "3",
+    title: "경량a",
+    subtitle: "(도착도)",
+    description: "(단일 20ton 이상 +@)",
+    price: 420,
+  },
+];
+
+export const NonFerrousMetals: Array<ScrapType> = [
+  {
+    id: "0",
+    title: "A동(꽈배기)",
+    description: "(도착도, vat 별도)",
+    price: 10100,
+  },
+  {
+    id: "1",
+    title: "상동",
+    description: "(도착도, vat 별도)",
+    price: 9600,
+  },
+  {
+    id: "2",
+    title: "파동",
+    description: "(도착도, vat 별도)",
+    price: 8600,
+  },
+  {
+    id: "3",
+    title: "신주(노베1)",
+    description: "(도착도, vat 별도)",
+    price: 6500,
+  },
+  {
+    id: "4",
+    title: "신주(철봉)",
+    description: "(도착도, vat 별도)",
+    price: 5900,
+  },
+  {
+    id: "5",
+    title: "신주(주물)",
+    description: "(도착도, vat 별도)",
+    price: 5600,
+  },
+  {
+    id: "6",
+    title: "SUS316(A)",
+    description: "(도착도, vat 별도)",
+    price: 3000,
+  },
+  {
+    id: "7",
+    title: "스텐314(A)",
+    description: "(도착도, vat 별도)",
+    price: 1500,
+  },
+  {
+    id: "8",
+    title: "샤시(A)",
+    description: "(도착도, vat 별도)",
+    price: 2100,
+  },
+  {
+    id: "9",
+    title: "아연",
+    description: "(도착도, vat 별도)",
+    price: 1500,
+  },
+];

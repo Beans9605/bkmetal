@@ -11,11 +11,21 @@ import {
   FormLabel,
   useTheme,
   useMediaQuery,
+  Select,
+  MenuItem,
+  SelectChangeEvent,
+  selectClasses,
+  inputClasses,
+  outlinedInputClasses,
 } from "@mui/material";
 import { brown, grey } from "@mui/material/colors";
 import Switch from "@component/common/input/Switch";
 import Carousel from "react-material-ui-carousel";
 import InputBox from "@component/common/InputBox";
+import { NonFerrousMetals, ScrapMetals } from "@utils/common";
+import StyledButton from "@component/common/input/StyledButton";
+import RequireProcessTitleBox from "@component/main/RequireProcessTitleBox";
+import RequireProcessContentBox from "@component/main/RequireProcessContentBox";
 
 const AnimationCardContent = styled(CardContent)(({ theme }) => ({
   animation: `aniopacity 1000ms ${theme.transitions.easing.easeInOut}`,
@@ -36,89 +46,25 @@ const PriceOfService = styled(CardContent)(({ theme }) => ({
   alignItems: "center",
 }));
 
-const RequireProcessTitleBox = styled(
-  (props: BoxProps & { open?: boolean }) => {
-    return <Box {...props} />;
-  }
-)(({ theme, open }) => ({
-  // padding: "0 30px",
-  display: "flex",
-  animation: open
-    ? `aniopen 1000ms ${theme.transitions.easing.easeInOut}`
-    : "inherit",
-  "@keyframes aniopen": {
-    from: {
-      opacity: 0,
-      transform: "translate(0, -20px)",
-    },
-    to: {
-      opacity: 1,
-      transform: "translate(0, 0)",
-    },
-  },
-  "@keyframes aniscaleup": {
-    from: {
-      transform: "scale(0)",
-    },
-    to: {
-      transform: "scale(1)",
-    },
-  },
-  "::before": {
-    animation: open
-      ? `aniscaleup 1000ms ${theme.transitions.easing.easeInOut}`
-      : "inherit",
-    width: "24px",
-    height: "24px",
-    borderRadius: "24px",
-    backgroundColor: "gray",
-    content: '""',
-    marginRight: "10px",
-  },
-}));
-
-const RequreProcessContentBox = styled(
-  (props: BoxProps & { open?: boolean }) => {
-    return <Box {...props} />;
-  }
-)(({ theme, open }) => ({
-  animation: open
-    ? `contentOpen 1000ms ${theme.transitions.easing.easeInOut}`
-    : "inherit",
-  "@keyframes contentOpen": {
-    from: {
-      opacity: 0,
-      transform: "translate(0, 200px)",
-    },
-    to: {
-      opacity: 1,
-      transform: "translate(0, 0)",
-    },
-  },
-  "@keyframes aniscaleup": {
-    from: {
-      transform: "scale(0)",
-    },
-    to: {
-      transform: "scale(1)",
-    },
-  },
-  padding: "10px 0",
-}));
-
 const StyledCard = styled(Card)(({ theme }) => ({
   margin: "24px 0",
   backgroundColor: grey["100"],
   borderRadius: "10px",
 }));
 
-const StyledCardTitle = styled(Box)(({ theme }) => ({
-  padding: "20px 15px",
+const StyledSelect_ = styled(Select)(({ theme }) => ({
+  [`.${outlinedInputClasses.notchedOutline}`]: {
+    border: "0",
+  },
+  borderRadius: "10px",
+  backgroundColor: grey[100],
 }));
 
 const MainDefinition = () => {
   const [switchNum, setSwitchNum] = useState(0);
   const [hideElement, setHideElement] = useState(false);
+  const [selectValue, setSelectValue] = useState("");
+  const [kgNumber, setKgNumber] = useState("");
   const scrollRef: React.RefObject<HTMLDivElement> = useRef(null);
   const theme = useTheme();
 
@@ -126,6 +72,14 @@ const MainDefinition = () => {
     const scroll =
       scrollRef?.current && scrollRef.current.getBoundingClientRect();
     setHideElement(scroll !== null && innerHeight > scroll.top);
+  };
+
+  const handleSelectChange = (event: any) => {
+    setSelectValue(event.target.value as string);
+  };
+
+  const handleSwtichChange = (num: number) => {
+    setSwitchNum(num);
   };
 
   useEffect(() => {
@@ -140,6 +94,11 @@ const MainDefinition = () => {
     };
   }, [scrollRef]);
 
+  useEffect(() => {
+    setSelectValue("");
+    setKgNumber("");
+  }, [switchNum]);
+
   return (
     <Container
       sx={{
@@ -153,7 +112,7 @@ const MainDefinition = () => {
             Our Service
           </Typography>
         </RequireProcessTitleBox>
-        <RequreProcessContentBox open={hideElement}>
+        <RequireProcessContentBox open={hideElement}>
           <Typography paddingLeft="34px">
             BK 에서는 모든 폐 자재를 취급합니다. 주로 비철 / 고철 자재를
             취급하여 구매합니다.
@@ -167,7 +126,7 @@ const MainDefinition = () => {
             <CardContent>
               <Switch
                 onState={switchNum}
-                onChange={(number: any) => setSwitchNum(number)}
+                onChange={handleSwtichChange}
                 onLabel={
                   <Box>
                     <Typography
@@ -218,29 +177,22 @@ const MainDefinition = () => {
                         }}
                         variant="outlined"
                       >
-                        <Carousel animation="slide" autoPlay indicators={false}>
-                          <PriceOfService>
-                            <Box>
-                              <Typography variant="h6">A동(꽈베기)</Typography>
-                              <Typography variant="subtitle1">
-                                (도착도, vat별도)
+                        <Carousel animation="slide" autoPlay>
+                          {NonFerrousMetals.map((nonMetal, index) => (
+                            <PriceOfService key={index}>
+                              <Box>
+                                <Typography variant="h6">
+                                  {nonMetal.title}
+                                </Typography>
+                                <Typography variant="subtitle1">
+                                  {nonMetal.description}
+                                </Typography>
+                              </Box>
+                              <Typography variant="h5" fontWeight={600}>
+                                ￦ {nonMetal.price}
                               </Typography>
-                            </Box>
-                            <Typography variant="h5" fontWeight={600}>
-                              ￦ 10,100
-                            </Typography>
-                          </PriceOfService>
-                          <PriceOfService>
-                            <Typography variant="h6">
-                              상동
-                              <Typography variant="subtitle1">
-                                (도착도, vat별도)
-                              </Typography>
-                            </Typography>
-                            <Typography variant="h5" fontWeight={600}>
-                              ￦ 9,600
-                            </Typography>
-                          </PriceOfService>
+                            </PriceOfService>
+                          ))}
                         </Carousel>
                       </StyledCard>
                     </AnimationCardContent>
@@ -255,33 +207,22 @@ const MainDefinition = () => {
                         }}
                         variant="outlined"
                       >
-                        <Carousel animation="slide" autoPlay indicators={false}>
-                          <PriceOfService>
-                            <Box>
-                              <Typography variant="h6">
-                                중량b (도착도)
+                        <Carousel animation="slide" autoPlay>
+                          {ScrapMetals.map((metal, index) => (
+                            <PriceOfService key={index}>
+                              <Box>
+                                <Typography variant="h6">
+                                  {metal.title} {metal.subtitle}
+                                </Typography>
+                                <Typography variant="subtitle1">
+                                  {metal.description}
+                                </Typography>
+                              </Box>
+                              <Typography variant="h5" fontWeight={600}>
+                                ￦ {metal.price}
                               </Typography>
-                              <Typography variant="subtitle1">
-                                (단일 20ton 이상 +@)
-                              </Typography>
-                            </Box>
-                            <Typography variant="h5" fontWeight={600}>
-                              ￦ 440
-                            </Typography>
-                          </PriceOfService>
-                          <PriceOfService>
-                            <Box>
-                              <Typography variant="h6">
-                                경량a (도착도)
-                              </Typography>
-                              <Typography variant="subtitle1">
-                                (단일 20ton 이상 +@)
-                              </Typography>
-                            </Box>
-                            <Typography variant="h5" fontWeight={600}>
-                              ￦ 420
-                            </Typography>
-                          </PriceOfService>
+                            </PriceOfService>
+                          ))}
                         </Carousel>
                       </StyledCard>
                     </AnimationCardContent>
@@ -289,17 +230,16 @@ const MainDefinition = () => {
                 </StyledCard>
                 <StyledCard elevation={0}>
                   <CardContent>
+                    <Typography variant="h6" fontWeight={600}>
+                      {switchNum === 0 ? "비철" : "고철"} 미리 계산
+                    </Typography>
+
                     <StyledCard
                       variant="outlined"
                       sx={{
                         backgroundColor: "white",
                       }}
                     >
-                      <StyledCardTitle>
-                        <Typography variant="h5" fontWeight={800}>
-                          미리 계산
-                        </Typography>
-                      </StyledCardTitle>
                       <CardContent>
                         <Box
                           sx={{
@@ -310,7 +250,24 @@ const MainDefinition = () => {
                         >
                           <FormControl>
                             <FormLabel>품목</FormLabel>
-                            <InputBox placeholder="품목을 입력해주세요" />
+                            <StyledSelect_
+                              size="small"
+                              labelId="Select Item"
+                              value={selectValue}
+                              onChange={(e) => handleSelectChange(e)}
+                            >
+                              {switchNum === 0
+                                ? NonFerrousMetals.map((nonMetal, index) => (
+                                    <MenuItem key={index} value={nonMetal.id}>
+                                      {nonMetal.title}
+                                    </MenuItem>
+                                  ))
+                                : ScrapMetals.map((metal, index) => (
+                                    <MenuItem key={index} value={metal.id}>
+                                      {metal.title}
+                                    </MenuItem>
+                                  ))}
+                            </StyledSelect_>
                           </FormControl>
                           <FormControl>
                             <FormLabel>중량</FormLabel>
@@ -318,8 +275,55 @@ const MainDefinition = () => {
                               placeholder="중량을 입력해주세요"
                               endAdornment={"kg"}
                               type="number"
+                              value={kgNumber}
+                              onChange={(e) =>
+                                Number(e.target.value) >= 0 &&
+                                setKgNumber(e.target.value)
+                              }
                             />
                           </FormControl>
+                          <Box
+                            sx={{
+                              gridColumn: "1 / 3",
+                              justify: "center",
+                            }}
+                          >
+                            <Typography
+                              sx={{
+                                "::after": {
+                                  content: '"(vat별도)"',
+                                  paddingLeft: "10px",
+                                  fontSize: "12px",
+                                  color: "red",
+                                },
+                              }}
+                              color={grey[700]}
+                            >
+                              총 금액
+                            </Typography>
+                            <Typography
+                              variant="h6"
+                              textAlign="center"
+                              color="red"
+                            >
+                              {selectValue && Number(kgNumber) > 0
+                                ? Number(kgNumber) *
+                                  (switchNum === 0
+                                    ? NonFerrousMetals.find(
+                                        (non) => non.id === selectValue
+                                      )?.price || 0
+                                    : ScrapMetals.find(
+                                        (metal) => metal.id === selectValue
+                                      )?.price || 0)
+                                : 0}
+                              ￦
+                            </Typography>
+                            <Typography padding="14px 0" textAlign={"center"}>
+                              운반비, 상차비 등이 제외된 금액으로
+                              <br /> 결제금액은 달라질 수 있습니다.
+                            </Typography>
+                            <StyledButton fullWidth>상담신청</StyledButton>
+                          </Box>
                         </Box>
                       </CardContent>
                     </StyledCard>
@@ -328,7 +332,7 @@ const MainDefinition = () => {
               </Box>
             </CardContent>
           </StyledCard>
-        </RequreProcessContentBox>
+        </RequireProcessContentBox>
       </Box>
     </Container>
   );
