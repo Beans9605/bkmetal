@@ -26,7 +26,7 @@ const MainCover = () => {
       <RightFrame>
         <CardOfHistory>
           <Typography variant="body2">
-            금속/비철 자재 취급
+            고철/비철 자재 취급
             <br />
             많은 기업들과 함께합니다.
           </Typography>

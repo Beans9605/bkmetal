@@ -81,13 +81,15 @@ const Navbar = (props: NavbarType) => {
   };
 
   const handleScroll = useCallback(() => {
-    const scrollnumber = window?.scrollY;
-    if (scrollnumber && scrollnumber > scrollYNum) {
-      setScrolled(true);
-    } else if (scrolled) {
-      setScrolled(false);
+    if (window) {
+      const scrollnumber = window?.scrollY;
+      if (scrollnumber && scrollnumber > scrollYNum) {
+        setScrolled(true);
+      } else if (scrolled) {
+        setScrolled(false);
+      }
+      setScrollYNum(scrollnumber);
     }
-    setScrollYNum(scrollnumber);
   }, [scrolled, scrollYNum]);
 
   const theme = useTheme();
