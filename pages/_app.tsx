@@ -12,8 +12,8 @@ import { RecoilRoot } from "recoil";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 const DEFAULT_SEO = {
-  title: "비케이 금속",
-  description: "비케이 금속 홈페이지",
+  title: "일운산업",
+  description: "일운산업 주식회사 홈페이지",
   // canonical: "https://devpos.hyphen.im",
   // openGraph: {
   //   type: "website",

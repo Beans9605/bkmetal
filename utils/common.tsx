@@ -11,6 +11,11 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import DeliveryDiningIcon from "@mui/icons-material/DeliveryDining";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
+import { ScrapType } from "./dto";
+
+export const isEmptyObject = (param: any) => {
+  return Object.keys(param).length === 0 && param.constructor == Object;
+};
 
 export type MainSidebarElement = {
   nodeId: string;

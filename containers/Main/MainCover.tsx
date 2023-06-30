@@ -31,7 +31,7 @@ const MainCover = () => {
             많은 기업들과 함께합니다.
           </Typography>
           <CardOfHistorySpan>
-            <Typography variant="h6">2022</Typography>
+            <Typography variant="h6">2012</Typography>
           </CardOfHistorySpan>
         </CardOfHistory>
       </RightFrame>

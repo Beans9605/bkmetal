@@ -18,7 +18,7 @@ import {
   inputClasses,
   outlinedInputClasses,
 } from "@mui/material";
-import { brown, grey } from "@mui/material/colors";
+import { red, grey } from "@mui/material/colors";
 import Switch from "@component/common/input/Switch";
 import Carousel from "react-material-ui-carousel";
 import InputBox from "@component/common/InputBox";
@@ -26,6 +26,7 @@ import { NonFerrousMetals, ScrapMetals } from "@utils/common";
 import StyledButton from "@component/common/input/StyledButton";
 import RequireProcessTitleBox from "@component/main/RequireProcessTitleBox";
 import RequireProcessContentBox from "@component/main/RequireProcessContentBox";
+import { ScrapType } from "@utils/dto";
 
 const AnimationCardContent = styled(CardContent)(({ theme }) => ({
   animation: `aniopacity 1000ms ${theme.transitions.easing.easeInOut}`,
@@ -47,7 +48,7 @@ const PriceOfService = styled(CardContent)(({ theme }) => ({
 }));
 
 const StyledCard = styled(Card)(({ theme }) => ({
-  margin: "24px 0",
+  marginTop: "24px",
   backgroundColor: grey["100"],
   borderRadius: "10px",
 }));
@@ -60,13 +61,38 @@ const StyledSelect_ = styled(Select)(({ theme }) => ({
   backgroundColor: grey[100],
 }));
 
-const MainDefinition = () => {
+const PriceOfServiceCard = (props: {
+  upperMd?: boolean;
+  scrapData: ScrapType;
+}) => {
+  const { upperMd, scrapData } = props;
+  return (
+    <PriceOfService>
+      <Box>
+        <Typography variant={upperMd ? "h6" : "subtitle1"} fontWeight={600}>
+          {scrapData.title} {scrapData?.subtitle}
+        </Typography>
+        <Typography variant={upperMd ? "subtitle1" : "caption"}>
+          {scrapData.description}
+        </Typography>
+      </Box>
+      <Typography variant={upperMd ? "h5" : "subtitle1"} fontWeight={600}>
+        ￦ {scrapData.price}
+      </Typography>
+    </PriceOfService>
+  );
+};
+
+const MainDefinition = (props: { onCounslingHandler?: Function }) => {
+  const { onCounslingHandler } = props;
+
   const [switchNum, setSwitchNum] = useState(0);
   const [hideElement, setHideElement] = useState(false);
   const [selectValue, setSelectValue] = useState("");
   const [kgNumber, setKgNumber] = useState("");
   const scrollRef: React.RefObject<HTMLDivElement> = useRef(null);
   const theme = useTheme();
+  const upperMd = useMediaQuery(theme.breakpoints.up("sm"));
 
   const yScrollEvent = (innerHeight: number) => {
     const scroll =
@@ -80,6 +106,20 @@ const MainDefinition = () => {
 
   const handleSwtichChange = (num: number) => {
     setSwitchNum(num);
+  };
+
+  const handleSubmit = () => {
+    if (selectValue && kgNumber && onCounslingHandler) {
+      onCounslingHandler({
+        itemInfo:
+          selectValue && switchNum === 0
+            ? NonFerrousMetals.find((non) => non.id === selectValue)
+            : ScrapMetals.find((metal) => metal.id === selectValue),
+        kgNumber: Number(kgNumber),
+      });
+    } else if (onCounslingHandler) {
+      onCounslingHandler({});
+    }
   };
 
   useEffect(() => {
@@ -114,7 +154,7 @@ const MainDefinition = () => {
         </RequireProcessTitleBox>
         <RequireProcessContentBox open={hideElement}>
           <Typography paddingLeft="34px">
-            BK 에서는 모든 폐 자재를 취급합니다. 주로 비철 / 고철 자재를
+            일운산업에서는 모든 폐 자재를 취급합니다. 주로 비철 / 고철 자재를
             취급하여 구매합니다.
           </Typography>
           <StyledCard
@@ -179,19 +219,11 @@ const MainDefinition = () => {
                       >
                         <Carousel animation="slide" autoPlay>
                           {NonFerrousMetals.map((nonMetal, index) => (
-                            <PriceOfService key={index}>
-                              <Box>
-                                <Typography variant="h6">
-                                  {nonMetal.title}
-                                </Typography>
-                                <Typography variant="subtitle1">
-                                  {nonMetal.description}
-                                </Typography>
-                              </Box>
-                              <Typography variant="h5" fontWeight={600}>
-                                ￦ {nonMetal.price}
-                              </Typography>
-                            </PriceOfService>
+                            <PriceOfServiceCard
+                              scrapData={nonMetal}
+                              key={index}
+                              upperMd={upperMd}
+                            />
                           ))}
                         </Carousel>
                       </StyledCard>
@@ -209,19 +241,11 @@ const MainDefinition = () => {
                       >
                         <Carousel animation="slide" autoPlay>
                           {ScrapMetals.map((metal, index) => (
-                            <PriceOfService key={index}>
-                              <Box>
-                                <Typography variant="h6">
-                                  {metal.title} {metal.subtitle}
-                                </Typography>
-                                <Typography variant="subtitle1">
-                                  {metal.description}
-                                </Typography>
-                              </Box>
-                              <Typography variant="h5" fontWeight={600}>
-                                ￦ {metal.price}
-                              </Typography>
-                            </PriceOfService>
+                            <PriceOfServiceCard
+                              scrapData={metal}
+                              upperMd={upperMd}
+                              key={index}
+                            />
                           ))}
                         </Carousel>
                       </StyledCard>
@@ -244,7 +268,7 @@ const MainDefinition = () => {
                         <Box
                           sx={{
                             display: "grid",
-                            gridTemplateColumns: "1fr 1fr",
+                            gridTemplateColumns: upperMd ? "1fr 1fr" : "1fr",
                             gap: 2,
                           }}
                         >
@@ -284,7 +308,7 @@ const MainDefinition = () => {
                           </FormControl>
                           <Box
                             sx={{
-                              gridColumn: "1 / 3",
+                              gridColumn: upperMd ? "1 / 3 " : "initial",
                               justify: "center",
                             }}
                           >
@@ -320,9 +344,13 @@ const MainDefinition = () => {
                             </Typography>
                             <Typography padding="14px 0" textAlign={"center"}>
                               운반비, 상차비 등이 제외된 금액으로
-                              <br /> 결제금액은 달라질 수 있습니다.
+                              {upperMd && <br />} 결제금액은 달라질 수 있습니다.
                             </Typography>
-                            <StyledButton fullWidth>상담신청</StyledButton>
+                            <FormControl fullWidth>
+                              <StyledButton onClick={handleSubmit}>
+                                상담신청
+                              </StyledButton>
+                            </FormControl>
                           </Box>
                         </Box>
                       </CardContent>

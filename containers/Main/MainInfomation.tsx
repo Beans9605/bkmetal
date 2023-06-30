@@ -48,12 +48,12 @@ const MainInfomation = () => {
       <Box>
         <RequireProcessTitleBox open={hideElement}>
           <Typography variant="h5" fontWeight={600}>
-            BK Infomation
+            ILUN Indurstry Infomation
           </Typography>
         </RequireProcessTitleBox>
         <RequireProcessContentBox open={hideElement}>
           <Typography paddingLeft="34px">
-            2022년부터 시작된 BK는 젊은 기업입니다. 젊은 힘으로 전국
+            2012년부터 시작된 일운산업은 젊은 기업입니다. 젊은 힘으로 전국
             스크랩업체와 제휴하여 수 많은 일들을 해내고 있습니다.
           </Typography>
           <Card

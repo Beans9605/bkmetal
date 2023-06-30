@@ -62,32 +62,12 @@ const Sidebar = () => {
 
   return (
     <Drawer
-      sx={{
-        width: drawerWidth,
-        flexShrink: 0,
-        "& .MuiDrawer-paper": {
-          width: drawerWidth,
-          boxSizing: "border-box",
-        },
-      }}
-      variant={upperSize ? "persistent" : "temporary"}
+      variant={"temporary"}
       anchor="right"
       open={drawerOpen}
       onClose={() => setDrawerOpen(false)}
     >
-      <List
-        component="nav"
-        // subheader={
-        //   <ListSubheader
-        //     component="div"
-        //     sx={{
-        //       textAlign: "center",
-        //     }}
-        //   >
-        //     <Image src={HyphenLogo} alt="로고" height={15} />
-        //   </ListSubheader>
-        // }
-      >
+      <List component="nav">
         {MainSidebarElements.map(
           (mainElement: MainSidebarElement, index: number) => {
             return (

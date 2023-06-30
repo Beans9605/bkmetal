@@ -10,6 +10,7 @@ import {
   ButtonProps,
   useTheme,
   Box,
+  Typography,
 } from "@mui/material";
 import StyledButton from "../input/StyledButton";
 
@@ -57,6 +58,7 @@ const DialogButton = styled(StyledButton)(({ theme }) => ({
 const Alert = (
   props: DialogProps & {
     contentTitle?: string;
+    contentSubtitle?: string;
     contentText?: string;
     contentNode?: any;
     accessButtonText?: string;
@@ -68,6 +70,7 @@ const Alert = (
 ) => {
   const {
     contentTitle,
+    contentSubtitle,
     contentText,
     contentNode,
     accessButtonText,
@@ -80,7 +83,18 @@ const Alert = (
 
   return (
     <StyledDialog onClose={onClose} {...rest}>
-      {contentTitle && <StyledDialogTitle>{contentTitle}</StyledDialogTitle>}
+      {contentTitle && (
+        <StyledDialogTitle>
+          <Typography variant="h6" component="div" fontWeight={600}>
+            {contentTitle}
+          </Typography>
+          {contentSubtitle && (
+            <Typography variant="caption" component="div">
+              {contentSubtitle}
+            </Typography>
+          )}
+        </StyledDialogTitle>
+      )}
       <StyledDialogContent
         sx={{
           display: "flex",

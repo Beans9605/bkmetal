@@ -6,6 +6,7 @@ import {
   useTheme,
   Button,
   Typography,
+  Box,
 } from "@mui/material";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import React, { useState, useEffect, useCallback } from "react";
@@ -18,6 +19,7 @@ import { useRouter } from "next/router";
 import FactoryIcon from "@mui/icons-material/Factory";
 import BKIcon from "@assets/icon/bk_iron.png";
 import Image from "next/image";
+import NavMenus from "./NavMenus";
 
 const drawerWidth = 240;
 
@@ -121,7 +123,6 @@ const Navbar = (props: NavbarType) => {
         }}
       >
         <Button
-          startIcon={<Image src={BKIcon} alt="bkicon" width={40} />}
           color="inherit"
           onClick={() => router.push("/")}
           sx={{
@@ -129,11 +130,21 @@ const Navbar = (props: NavbarType) => {
           }}
           size="large"
         >
-          <Typography variant="h4" color="primary">
-            BK
+          <Typography variant="h5" color="primary" fontWeight={800}>
+            Ilun
           </Typography>
         </Button>
-        <IconButton onClick={onHomeClickHandler}>
+
+        <NavMenus />
+        <IconButton
+          sx={{
+            backgroundColor: theme.palette.secondary.light,
+            color: "white",
+          }}
+          disableFocusRipple
+          disableRipple
+          onClick={onHomeClickHandler}
+        >
           {sideOpen ? (
             <CloseIcon fontSize="small" />
           ) : (

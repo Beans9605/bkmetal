@@ -6,6 +6,7 @@ import { styled, useMediaQuery, useTheme } from "@mui/material";
 import { sidebarOpenState } from "@utils/recoil";
 import { useRecoilState } from "recoil";
 import { Box } from "@mui/material";
+import SubMenu from "@container/Nav/SubMenu";
 
 const drawerWidth = 240;
 
@@ -32,7 +33,8 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <>
       <Navbar onSidebarHandler={onSidebarHandler} />
-      <Sidebar />
+      <SubMenu />
+      {/* <Sidebar /> */}
       <Main>{children}</Main>
     </>
   );
