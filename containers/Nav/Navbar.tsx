@@ -140,6 +140,7 @@ const Navbar = (props: NavbarType) => {
           sx={{
             backgroundColor: theme.palette.secondary.light,
             color: "white",
+            visibility: 'hidden'
           }}
           disableFocusRipple
           disableRipple

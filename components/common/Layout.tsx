@@ -33,7 +33,7 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <>
       <Navbar onSidebarHandler={onSidebarHandler} />
-      <SubMenu />
+      {/* <SubMenu /> */}
       {/* <Sidebar /> */}
       <Main>{children}</Main>
     </>
