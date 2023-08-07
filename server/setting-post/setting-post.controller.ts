@@ -9,7 +9,7 @@ export class SettingPostController {
     constructor(private readonly settingPostService: SettingPostService) {}
 
     @Post("/get")
-    async getPostByPage(@Body() getAllReq: GetAllReq): Promise<PrePost[]> {
+    async getPostByPage(@Body() getAllReq: GetAllReq): Promise<[PrePost[], number]> {
         return this.settingPostService.getPrePostByPage(getAllReq);
     }
 

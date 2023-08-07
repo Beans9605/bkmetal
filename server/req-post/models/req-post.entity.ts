@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('req_post')
 export class ReqPost {
@@ -42,4 +42,8 @@ export class ReqPost {
         comment: '견적문의'
     })
     content: string;
+    @CreateDateColumn()
+    create_at: Date;
+    @UpdateDateColumn()
+    update_at: Date;
 }

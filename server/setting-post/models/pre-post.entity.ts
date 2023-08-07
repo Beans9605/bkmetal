@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
 
 @Entity("pre_post")
 export class PrePost {
@@ -27,4 +27,8 @@ export class PrePost {
         comment: "가격",
     })
     price: number;
+    @CreateDateColumn()
+    create_at: Date;
+    @UpdateDateColumn()
+    update_at: Date;
 }

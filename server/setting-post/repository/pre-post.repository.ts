@@ -9,11 +9,11 @@ export class PrePostRepository extends Repository<PrePost> {
         rateByPage: number,
         searchType?: string,
         searchKeyword?: string
-    ): Promise<PrePost[]> {
+    ): Promise<[PrePost[], number]> {
         return this.createQueryBuilder("pre_post")
             .where(`${searchType || 'item_type'} LIKE :searchKeyword`, { searchKeyword: `%${searchKeyword}%` })
             .take(rateByPage)
-            .skip((pageNumber - 1) * rateByPage)
-            .getMany();
+            .skip(pageNumber * rateByPage)
+            .getManyAndCount();
     }
 }

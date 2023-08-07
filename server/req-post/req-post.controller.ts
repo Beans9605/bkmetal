@@ -8,7 +8,7 @@ export class ReqPostController {
     constructor(private readonly reqPostService: ReqPostService) {}
 
     @Post("/get")
-    async getPostByPage(@Body() getAllReq: GetAllReq): Promise<ReqPost[]> {
+    async getPostByPage(@Body() getAllReq: GetAllReq): Promise<[ReqPost[], number]> {
         return this.reqPostService.getPostByPage(getAllReq);
     }
 

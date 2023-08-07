@@ -9,11 +9,11 @@ export class ReqPostRepository extends Repository<ReqPost> {
         rateByPage: number,
         searchType?: string,
         searchKeyword?: string
-    ): Promise<ReqPost[]> {
+    ): Promise<[ReqPost[], number]> {
         return this.createQueryBuilder("req_post")
             .where(`${searchType || 'company_name'} LIKE :searchKeyword`, { searchKeyword: `%${searchKeyword}%` })
             .take(rateByPage)
             .skip((pageNumber - 1) * rateByPage)
-            .getMany();
+            .getManyAndCount();
     }
 }
