@@ -4,6 +4,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import axios from "axios";
 import dayjs from 'dayjs';
 import StyledButton from "@component/common/input/StyledButton";
+import { useRouter } from "next/router";
 
 const reqPostColumns: GridColDef[] = [
     {
@@ -81,6 +82,8 @@ const AdminBoard = () => {
     const [searchType, setSearchType] = useState('');
     const [selectGet, setSelectGet] = useState('req-post')
 
+    const router = useRouter()
+
     const rows = useMemo(() => {
         return callRows[0].map((value) => {
             return value;
@@ -115,6 +118,19 @@ const AdminBoard = () => {
                 <Typography variant="h4" fontWeight={600}>
                     {selectGet === "req-post" ? "문의 내역" : "상품 설정"}
                 </Typography>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        gap: 2
+                    }}
+                >
+                    {
+                        selectGet !== "req-post" && <StyledButton
+                            onClick={() => router.push('/admin/prePost/create')}
+                        >
+                            상품 설정 생성
+                        </StyledButton>
+                    }
                 <StyledButton
                     onClick={() => setSelectGet(pre => pre === 'req-post' ? 'setting-post' : 'req-post')}
                 >
@@ -122,6 +138,7 @@ const AdminBoard = () => {
                         ? "상품 설정 전환"
                         : "문의 내역 전환"}
                 </StyledButton>
+                </Box>
             </Box>
             <Box
                 sx={{
@@ -151,6 +168,9 @@ const AdminBoard = () => {
                     }}
                     pageSizeOptions={[10, 25, 50]}
                     disableRowSelectionOnClick
+                    onRowClick={(param) => {
+                        router.push(`/admin/${selectGet === "req-post" ? 'reqPost' : 'prePost'}/${param.row.id}`)
+                    }}
                 />
             </Box>
         </Container>

@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Get, Post, Query } from "@nestjs/common";
 import { ReqPostService } from "./req-post.service";
 import { GetAllReq } from "./dto/req-post.dto";
 import { ReqPost } from "./models/req-post.entity";
@@ -17,5 +17,15 @@ export class ReqPostController {
         @Body() reqPost: ReqPost
     ): Promise<{ success: boolean; message: string }> {
         return this.reqPostService.setPost(reqPost);
+    }
+
+    @Get('/get')
+    async getAllPost(): Promise<ReqPost[]> {
+        return this.getAllPost()
+    }
+
+    @Get('/get/one')
+    async getOneById(@Query('id') id: number): Promise<ReqPost | null> {
+        return this.reqPostService.findById(id);
     }
 }

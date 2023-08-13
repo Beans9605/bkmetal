@@ -28,7 +28,7 @@ export class PrePost {
     })
     price: number;
     @CreateDateColumn()
-    create_at: Date;
+    create_at?: Date;
     @UpdateDateColumn()
-    update_at: Date;
+    update_at?: Date;
 }

@@ -4,7 +4,6 @@ import {
   styled,
   Box,
   Typography,
-  BoxProps,
   Card,
   CardContent,
   FormControl,
@@ -13,12 +12,9 @@ import {
   useMediaQuery,
   Select,
   MenuItem,
-  SelectChangeEvent,
-  selectClasses,
-  inputClasses,
   outlinedInputClasses,
 } from "@mui/material";
-import { red, grey } from "@mui/material/colors";
+import { grey } from "@mui/material/colors";
 import Switch from "@component/common/input/Switch";
 import Carousel from "react-material-ui-carousel";
 import InputBox from "@component/common/InputBox";
@@ -27,6 +23,8 @@ import StyledButton from "@component/common/input/StyledButton";
 import RequireProcessTitleBox from "@component/main/RequireProcessTitleBox";
 import RequireProcessContentBox from "@component/main/RequireProcessContentBox";
 import { ScrapType } from "@utils/dto";
+import axios from "axios";
+import { PrePost } from "../../server/setting-post/models/pre-post.entity";
 
 const AnimationCardContent = styled(CardContent)(({ theme }) => ({
   animation: `aniopacity 1000ms ${theme.transitions.easing.easeInOut}`,
@@ -90,6 +88,9 @@ const MainDefinition = (props: { onCounslingHandler?: Function }) => {
   const [hideElement, setHideElement] = useState(false);
   const [selectValue, setSelectValue] = useState("");
   const [kgNumber, setKgNumber] = useState("");
+
+  const [scrapDatas, setScrapDatas] = useState<ScrapType[]>([]);
+
   const scrollRef: React.RefObject<HTMLDivElement> = useRef(null);
   const theme = useTheme();
   const upperMd = useMediaQuery(theme.breakpoints.up("sm"));
@@ -122,9 +123,24 @@ const MainDefinition = (props: { onCounslingHandler?: Function }) => {
     }
   };
 
+  const getAllPrePost = useCallback(() => {
+    axios.get('/api/setting-post/get').then((res) => {
+      const resData = res.data as PrePost[]
+      const instanceScrapData = resData.map((data): ScrapType => {
+        return {
+          id: data.id?.toString() as string, 
+          title: data.item_type,
+          description: data.item_comment,
+          price: data.price,
+          type: data.type,
+        }
+      })
+      setScrapDatas(instanceScrapData);
+    })
+  }, [])
+
   useEffect(() => {
     if (!scrollRef?.current) return;
-
     document.addEventListener("scroll", () => yScrollEvent(window.innerHeight));
 
     return () => {
@@ -138,6 +154,11 @@ const MainDefinition = (props: { onCounslingHandler?: Function }) => {
     setSelectValue("");
     setKgNumber("");
   }, [switchNum]);
+
+  useEffect(() => {
+    getAllPrePost()
+  }, [])
+  
 
   return (
     <Container
@@ -218,7 +239,7 @@ const MainDefinition = (props: { onCounslingHandler?: Function }) => {
                         variant="outlined"
                       >
                         <Carousel animation="slide" autoPlay>
-                          {NonFerrousMetals.map((nonMetal, index) => (
+                          {scrapDatas.filter(data => data.type === '비철').map((nonMetal, index) => (
                             <PriceOfServiceCard
                               scrapData={nonMetal}
                               key={index}
@@ -240,7 +261,7 @@ const MainDefinition = (props: { onCounslingHandler?: Function }) => {
                         variant="outlined"
                       >
                         <Carousel animation="slide" autoPlay>
-                          {ScrapMetals.map((metal, index) => (
+                          {scrapDatas.filter(data => data.type === '고철').map((metal, index) => (
                             <PriceOfServiceCard
                               scrapData={metal}
                               upperMd={upperMd}
@@ -281,12 +302,12 @@ const MainDefinition = (props: { onCounslingHandler?: Function }) => {
                               onChange={(e) => handleSelectChange(e)}
                             >
                               {switchNum === 0
-                                ? NonFerrousMetals.map((nonMetal, index) => (
+                                ? scrapDatas.filter(data => data.type === '비철').map((nonMetal, index) => (
                                     <MenuItem key={index} value={nonMetal.id}>
                                       {nonMetal.title}
                                     </MenuItem>
                                   ))
-                                : ScrapMetals.map((metal, index) => (
+                                : scrapDatas.filter(data => data.type === '고철').map((metal, index) => (
                                     <MenuItem key={index} value={metal.id}>
                                       {metal.title}
                                     </MenuItem>
@@ -333,10 +354,10 @@ const MainDefinition = (props: { onCounslingHandler?: Function }) => {
                               {selectValue && Number(kgNumber) > 0
                                 ? Number(kgNumber) *
                                   (switchNum === 0
-                                    ? NonFerrousMetals.find(
+                                    ? scrapDatas.filter(data => data.type === '비철').find(
                                         (non) => non.id === selectValue
                                       )?.price || 0
-                                    : ScrapMetals.find(
+                                    : scrapDatas.filter(data => data.type === '고철').find(
                                         (metal) => metal.id === selectValue
                                       )?.price || 0)
                                 : 0}

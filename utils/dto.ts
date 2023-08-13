@@ -4,6 +4,7 @@ export interface ScrapType {
   subtitle?: string;
   description: string;
   price: number;
+  type?: string;
 }
 
 export interface CounslingItemType {
