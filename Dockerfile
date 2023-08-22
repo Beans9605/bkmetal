@@ -5,9 +5,9 @@ WORKDIR /app
 
 COPY . .
 
-RUN yarn
+ENV NODE_ENV="production"
 
-RUN yarn build
+RUN yarn
 
 EXPOSE 3000
 

@@ -1,7 +1,9 @@
-.git
-.gitignore
-.vscode
-.next
-node_modules
-posAspReact.tar.gz
-.env.local
+liun-docker-file.tar.gz
+components/
+containers/
+pages/
+public/
+server/
+styles/
+utils/
+node_modules/

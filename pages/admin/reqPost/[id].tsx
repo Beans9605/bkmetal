@@ -28,7 +28,7 @@ const ReqPostContent = () => {
 
   useEffect(() => {
     callContent();
-  }, [postId]);
+  }, [postId, callContent]);
 
   useEffect(() => {
     setPostId(id);
