@@ -44,6 +44,7 @@ const MainInfomation = () => {
         paddingTop: "24px",
       }}
       ref={scrollRef}
+      id="introduce"
     >
       <Box>
         <RequireProcessTitleBox open={hideElement}>

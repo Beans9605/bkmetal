@@ -2,14 +2,16 @@ import React from "react";
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import { ServerStyleSheets } from "@mui/styles";
 import { ServerStyleSheet } from "styled-components";
-import Navbar from "../containers/Nav/Navbar";
 
 // meta 태그를 정의하거나, 전체 페이지에 관여하는 컴포넌트
 export default class _document extends Document {
   render() {
     return (
       <Html>
-        <Head></Head>
+        <Head>
+          <meta name="naver-site-verification" content="435e66ecc90201845690ae041959203259a0e709" />
+          <link rel="shortcut icon" href="/recycling_all.png" />
+        </Head>
         <body>
           <Main />
           <NextScript />

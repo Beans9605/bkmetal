@@ -42,6 +42,7 @@ const MainFooterTip = () => {
         paddingTop: "24px",
       }}
       ref={scrollRef}
+      id="order-tip"
     >
       <Box>
         <RequireProcessTitleBox open={hideElement}>

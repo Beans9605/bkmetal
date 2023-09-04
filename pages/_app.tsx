@@ -14,7 +14,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 const DEFAULT_SEO = {
   title: "일운산업",
   description: "일운산업 주식회사 홈페이지",
-  // canonical: "https://devpos.hyphen.im",
+  canonical: "https://ilun.co.kr",
   // openGraph: {
   //   type: "website",
   //   locale: "ko_KR",

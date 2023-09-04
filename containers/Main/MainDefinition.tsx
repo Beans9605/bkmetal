@@ -166,6 +166,7 @@ const MainDefinition = (props: { onCounslingHandler?: Function }) => {
         paddingTop: "24px",
       }}
       ref={scrollRef}
+      id="scrap-table"
     >
       <Box>
         <RequireProcessTitleBox open={hideElement}>

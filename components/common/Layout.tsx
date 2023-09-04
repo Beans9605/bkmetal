@@ -7,6 +7,7 @@ import { sidebarOpenState } from "@utils/recoil";
 import { useRecoilState } from "recoil";
 import { Box } from "@mui/material";
 import SubMenu from "@container/Nav/SubMenu";
+import Footer from "./display/Footer";
 
 const drawerWidth = 240;
 
@@ -36,6 +37,7 @@ const Layout = ({ children }: LayoutProps) => {
       {/* <SubMenu /> */}
       {/* <Sidebar /> */}
       <Main>{children}</Main>
+      <Footer />
     </>
   );
 };
