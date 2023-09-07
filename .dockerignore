@@ -2,8 +2,8 @@ liun-docker-file.tar.gz
 components/
 containers/
 pages/
-public/
 server/
 styles/
 utils/
 node_modules/
+ilun-fullpage.*.tar.gz

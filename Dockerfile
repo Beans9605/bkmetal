@@ -7,7 +7,7 @@ COPY . .
 
 ENV NODE_ENV="production"
 
-RUN yarn
+RUN yarn install --immutable --immutable-cache --check-cache
 
 EXPOSE 3000
 

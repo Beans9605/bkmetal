@@ -11,6 +11,12 @@ export default class _document extends Document {
         <Head>
           <meta name="naver-site-verification" content="435e66ecc90201845690ae041959203259a0e709" />
           <link rel="shortcut icon" href="/recycling_all.png" />
+          <link rel="icon" href="/favicon.ico" />
+          <meta property="description" content="일운산업 주식회사의 스크랩 기타자재 등 매입 문의 및 소개 사이트" />
+          <meta name="viewport" content="initail-scale=1.0, width=device-width"/>
+          <meta property="og:title" content="일운산업" />
+          <meta property="og:type" content="website"/>
+          <meta property="og:article:author" content="일운산업" />
         </Head>
         <body>
           <Main />

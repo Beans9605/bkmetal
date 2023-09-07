@@ -13,7 +13,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 
 const DEFAULT_SEO = {
   title: "일운산업",
-  description: "일운산업 주식회사 홈페이지",
+  description: "일운산업 주식회사의 스크랩 기타자재 등 매입 문의 및 소개 사이트",
   canonical: "https://ilun.co.kr",
   // openGraph: {
   //   type: "website",

@@ -5,7 +5,7 @@
 /.pnp
 .pnp.js
 liun-docker-file.tar.gz
-
+ilun-fullpage.*.tar.gz
 # testing
 /coverage
 
