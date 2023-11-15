@@ -9,6 +9,8 @@ ilun-fullpage.*.tar.gz
 # testing
 /coverage
 
+/pages/admin
+
 # next.js
 /.next/
 /out/

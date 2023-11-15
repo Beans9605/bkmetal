@@ -56,10 +56,11 @@ const OffTabBox = styled.div<{ onClickTab?: boolean }>`
 const Switch = (props: {
   onChange?: Function;
   onLabel?: any;
+  middleLabel?: any;
   offLabel?: any;
   onState?: number;
 }) => {
-  const { onChange, onLabel, offLabel, onState } = props;
+  const { onChange, onLabel, offLabel, onState, middleLabel } = props;
 
   const [tabState, setTabState] = useState(onState || 0);
 
@@ -80,7 +81,14 @@ const Switch = (props: {
           onClickTab={tabState === 0}
           onClick={() => onClickHandler(0)}
         />
-
+        {
+          middleLabel &&
+            <OnTabBox
+            onClickTab={tabState === 2}
+            onClick={() => onClickHandler(2)}
+          />
+        }
+        
         <OffTabBox
           onClickTab={tabState === 1}
           onClick={() => onClickHandler(1)}
@@ -94,9 +102,22 @@ const Switch = (props: {
           paddingLeft: "10px",
         }}
       >
-        <Box>{onLabel}</Box>
-        <Divider />
-        <Box>{offLabel}</Box>
+        {
+          middleLabel ?
+          <>
+          <Box>{onLabel}</Box>
+          <Divider />
+          <Box>{middleLabel}</Box>
+          <Divider />
+          <Box>{offLabel}</Box>
+          </>
+          :
+          <>
+          <Box>{onLabel}</Box>
+            <Divider />
+          <Box>{offLabel}</Box>
+          </>
+        }
       </Box>
     </Box>
   );

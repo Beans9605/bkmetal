@@ -67,7 +67,7 @@ const PrePostCreateContent = () => {
               onChange={(e) => {
                 setPostContent((pre) => ({ ...pre, type: e.target.value }));
               }}
-              placeholder="비철 / 고철"
+              placeholder="비철 / 고철 / 폐자재"
               error={typeError}
             />
           </FormControl>

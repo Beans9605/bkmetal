@@ -90,6 +90,7 @@ const MainDefinition = (props: { onCounslingHandler?: Function }) => {
   const [kgNumber, setKgNumber] = useState("");
 
   const [scrapDatas, setScrapDatas] = useState<ScrapType[]>([]);
+  const [scrapTypes, setScrapTypes] = useState<string[]>([]);
 
   const scrollRef: React.RefObject<HTMLDivElement> = useRef(null);
   const theme = useTheme();
@@ -135,6 +136,20 @@ const MainDefinition = (props: { onCounslingHandler?: Function }) => {
           type: data.type,
         }
       })
+      const scrapTypes = resData.reduce((pre: string[], curr) => {
+        if(pre && pre.length > 0) {
+          if (pre.includes(curr.type)) {
+            return pre
+          }
+          else {
+            return [...pre, curr.type]
+          }
+        }
+        else {
+          return [curr.type]
+        }
+      }, [])
+      setScrapTypes(scrapTypes)
       setScrapDatas(instanceScrapData);
     })
   }, [])
@@ -194,12 +209,16 @@ const MainDefinition = (props: { onCounslingHandler?: Function }) => {
                     <Typography
                       variant="subtitle1"
                       fontWeight={switchNum === 0 ? 700 : 400}
-                      lineHeight={0.8}
+                      component={"div"}
                     >
-                      비철
-                    </Typography>
-                    <Typography color="primary.light">
-                      non-ferrous metal
+                      비철{" "}
+                      <Typography
+                        component={"span"}
+                        fontSize="14px"
+                        color={grey[500]}
+                      >
+                        non-ferrous metal
+                      </Typography>
                     </Typography>
                   </Box>
                 }
@@ -208,11 +227,34 @@ const MainDefinition = (props: { onCounslingHandler?: Function }) => {
                     <Typography
                       fontWeight={switchNum === 1 ? 700 : 400}
                       variant="subtitle1"
+                      component={"div"}
                     >
-                      고철
+                      고철{" "}
+                      <Typography
+                        component={"span"}
+                        fontSize="14px"
+                        color={grey[500]}
+                      >
+                        scrap metal
+                      </Typography>
                     </Typography>
-                    <Typography color="primary.light" lineHeight={0.8}>
-                      scrap metal
+                  </Box>
+                }
+                middleLabel={
+                  <Box>
+                    <Typography
+                      fontWeight={switchNum === 2 ? 700 : 400}
+                      variant="subtitle1"
+                      component={"div"}
+                    >
+                      폐자재{" "}
+                      <Typography
+                        component={"span"}
+                        fontSize="14px"
+                        color={grey[500]}
+                      >
+                        scrap
+                      </Typography>
                     </Typography>
                   </Box>
                 }
@@ -240,17 +282,19 @@ const MainDefinition = (props: { onCounslingHandler?: Function }) => {
                         variant="outlined"
                       >
                         <Carousel animation="slide" autoPlay>
-                          {scrapDatas.filter(data => data.type === '비철').map((nonMetal, index) => (
-                            <PriceOfServiceCard
-                              scrapData={nonMetal}
-                              key={index}
-                              upperMd={upperMd}
-                            />
-                          ))}
+                          {scrapDatas
+                            .filter((data) => data.type === "비철")
+                            .map((nonMetal, index) => (
+                              <PriceOfServiceCard
+                                scrapData={nonMetal}
+                                key={index}
+                                upperMd={upperMd}
+                              />
+                            ))}
                         </Carousel>
                       </StyledCard>
                     </AnimationCardContent>
-                  ) : (
+                  )  : switchNum === 1 ? (
                     <AnimationCardContent>
                       <Typography variant="h6" fontWeight={600}>
                         고철 시세
@@ -262,22 +306,53 @@ const MainDefinition = (props: { onCounslingHandler?: Function }) => {
                         variant="outlined"
                       >
                         <Carousel animation="slide" autoPlay>
-                          {scrapDatas.filter(data => data.type === '고철').map((metal, index) => (
-                            <PriceOfServiceCard
-                              scrapData={metal}
-                              upperMd={upperMd}
-                              key={index}
-                            />
-                          ))}
+                          {scrapDatas
+                            .filter((data) => data.type === "고철")
+                            .map((metal, index) => (
+                              <PriceOfServiceCard
+                                scrapData={metal}
+                                upperMd={upperMd}
+                                key={index}
+                              />
+                            ))}
                         </Carousel>
                       </StyledCard>
                     </AnimationCardContent>
-                  )}
+                  ) : 
+                  (
+                    <AnimationCardContent>
+                      <Typography variant="h6" fontWeight={600}>
+                        폐자재 시세
+                      </Typography>
+                      <StyledCard
+                        sx={{
+                          backgroundColor: "white",
+                        }}
+                        variant="outlined"
+                      >
+                        <Carousel animation="slide" autoPlay>
+                          {scrapDatas
+                            .filter((data) => data.type === "폐자재")
+                            .map((metal, index) => (
+                              <PriceOfServiceCard
+                                scrapData={metal}
+                                upperMd={upperMd}
+                                key={index}
+                              />
+                            ))}
+                        </Carousel>
+                      </StyledCard>
+                    </AnimationCardContent>)}
                 </StyledCard>
                 <StyledCard elevation={0}>
                   <CardContent>
                     <Typography variant="h6" fontWeight={600}>
-                      {switchNum === 0 ? "비철" : "고철"} 미리 계산
+                      {switchNum === 0
+                        ? "비철"
+                        : switchNum === 1
+                        ? "고철"
+                        : "폐자재"}
+                      미리 계산
                     </Typography>
 
                     <StyledCard
@@ -303,16 +378,28 @@ const MainDefinition = (props: { onCounslingHandler?: Function }) => {
                               onChange={(e) => handleSelectChange(e)}
                             >
                               {switchNum === 0
-                                ? scrapDatas.filter(data => data.type === '비철').map((nonMetal, index) => (
-                                    <MenuItem key={index} value={nonMetal.id}>
-                                      {nonMetal.title}
-                                    </MenuItem>
-                                  ))
-                                : scrapDatas.filter(data => data.type === '고철').map((metal, index) => (
-                                    <MenuItem key={index} value={metal.id}>
-                                      {metal.title}
-                                    </MenuItem>
-                                  ))}
+                                ? scrapDatas
+                                    .filter((data) => data.type === "비철")
+                                    .map((nonMetal, index) => (
+                                      <MenuItem key={index} value={nonMetal.id}>
+                                        {nonMetal.title}
+                                      </MenuItem>
+                                    ))
+                                : switchNum === 1
+                                ? scrapDatas
+                                    .filter((data) => data.type === "고철")
+                                    .map((metal, index) => (
+                                      <MenuItem key={index} value={metal.id}>
+                                        {metal.title}
+                                      </MenuItem>
+                                    ))
+                                : scrapDatas
+                                    .filter((data) => data.type === "폐자재")
+                                    .map((metal, index) => (
+                                      <MenuItem key={index} value={metal.id}>
+                                        {metal.title}
+                                      </MenuItem>
+                                    ))}
                             </StyledSelect_>
                           </FormControl>
                           <FormControl>
@@ -355,12 +442,23 @@ const MainDefinition = (props: { onCounslingHandler?: Function }) => {
                               {selectValue && Number(kgNumber) > 0
                                 ? Number(kgNumber) *
                                   (switchNum === 0
-                                    ? scrapDatas.filter(data => data.type === '비철').find(
-                                        (non) => non.id === selectValue
-                                      )?.price || 0
-                                    : scrapDatas.filter(data => data.type === '고철').find(
-                                        (metal) => metal.id === selectValue
-                                      )?.price || 0)
+                                    ? scrapDatas
+                                        .filter((data) => data.type === "비철")
+                                        .find((non) => non.id === selectValue)
+                                        ?.price || 0
+                                    : switchNum === 1
+                                    ? scrapDatas
+                                        .filter((data) => data.type === "고철")
+                                        .find(
+                                          (metal) => metal.id === selectValue
+                                        )?.price || 0
+                                    : scrapDatas
+                                        .filter(
+                                          (data) => data.type === "폐자재"
+                                        )
+                                        .find(
+                                          (metal) => metal.id === selectValue
+                                        )?.price || 0)
                                 : 0}
                               ￦
                             </Typography>

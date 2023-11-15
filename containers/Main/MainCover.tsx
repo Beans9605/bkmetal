@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, useTheme, useMediaQuery } from "@mui/material";
+import { Typography, useTheme, useMediaQuery, SpeedDial, SpeedDialIcon, IconButton, Tooltip, Box, SpeedDialAction } from "@mui/material";
 import BKMainImage from "@assets/img/bkimg/bk_mainframe_pic.png";
 import MainFrame from "@component/main/cover/MainFrame";
 import InnerMainFrame from "@component/main/cover/InnerMainFrame";
@@ -9,6 +9,11 @@ import LeftFrame from "@component/main/cover/LeftFrame";
 import RightFrame from "@component/main/cover/RightFrame";
 import CardOfHistory from "@component/main/cover/CardOfHistory";
 import CardOfHistorySpan from "@component/main/cover/CardOfHistorySpan";
+import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
+
+const actions = [
+  { icon: <LocalPhoneIcon />, name: '문의번호' }
+];
 
 const MainCover = () => {
   const theme = useTheme();
